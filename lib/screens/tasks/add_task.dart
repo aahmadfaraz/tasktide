@@ -18,6 +18,7 @@ class AddTaskDialog extends StatefulWidget {
 class _AddTaskDialogState extends State<AddTaskDialog> {
   final TextEditingController taskController = TextEditingController();
   DateTime? selectedDate;
+  bool addLoading = false;
 
   Future<void> _showConfirmationDialog(BuildContext context) async {
     final taskProvider = Provider.of<TaskProvider>(context, listen: false);
@@ -39,7 +40,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
             TextButton(
               onPressed: () async {
                 final removedItem = taskProvider.localTasks[0];
-                taskProvider.localTasks.removeAt(0);
+                taskProvider.localTasks.remove(removedItem);
 
                 await taskProvider.deleteTask(removedItem.taskId);
                 await taskProvider.getTasks();
@@ -56,9 +57,13 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
   @override
   Widget build(BuildContext context) {
     final taskProvider = Provider.of<TaskProvider>(context, listen: false);
-    bool addLoading = false;
 
-    return taskProvider.addLoading
+    ThemeData pickerTheme = ThemeData(
+      primaryColor: Colors.red,
+      primarySwatch: customPrimaryColor,
+    );
+
+    return addLoading == true
         ? const Center(child: CircularProgressIndicator(color: Pallete.primary))
         : AlertDialog(
             scrollable: true,
@@ -83,7 +88,6 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       hintText: "Add Task..",
-                      // contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                       hintStyle: const TextStyle(
                         fontSize: 15.0,
                         color: Pallete.darkBlue,
@@ -109,6 +113,12 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                         initialDate: DateTime.now(),
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2101),
+                        builder: (BuildContext context, Widget? child) {
+                          return Theme(
+                            data: pickerTheme,
+                            child: child!,
+                          );
+                        },
                       );
                       if (pickedDate != null && pickedDate != selectedDate) {
                         setState(() {
@@ -125,7 +135,6 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                           fontFamily: "Inter",
                         ),
                         decoration: const InputDecoration(
-                          // contentPadding:  EdgeInsets.symmetric(horizontal: 8.0),
                           hintText: 'Select Date',
                           hintStyle: TextStyle(
                             fontSize: 15.0,
@@ -175,15 +184,13 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                         isCompleted: false,
                       ),
                     );
+
                     await taskProvider.getTasks();
                     setState(() {
                       addLoading = false;
                     });
                     if (mounted) Navigator.pop(context);
                   } else if (taskProvider.localTasks.length == 10) {
-                    setState(() {
-                      addLoading = true;
-                    });
                     await _showConfirmationDialog(context);
                     if (mounted) Navigator.pop(context);
                   }

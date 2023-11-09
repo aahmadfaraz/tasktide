@@ -73,3 +73,19 @@ class Pallete {
   static const Color course6Color2 = Color(0xFFD61785);
   static const Color course6Man = Color(0xFFBC6B9A);
 }
+
+const MaterialColor customPrimaryColor = MaterialColor(
+  0xFF178582,
+  <int, Color>{
+    50: Color(0xFF178582),
+    100: Color(0xFF178582),
+    200: Color(0xFF178582),
+    300: Color(0xFF178582),
+    400: Color(0xFF178582),
+    500: Color(0xFF178582),
+    600: Color(0xFF178582),
+    700: Color(0xFF178582),
+    800: Color(0xFF178582),
+    900: Color(0xFF178582),
+  },
+);

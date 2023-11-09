@@ -28,7 +28,7 @@ class PostRepo {
     }
   }
 
-  Future<void> addTaskToFirestore(TaskModel task) async {
+  Future<TaskModel?> addTaskToFirestore(TaskModel task) async {
     try {
       final DocumentReference documentRef =
           await _firestore.collection("tasks").add({});
@@ -38,8 +38,16 @@ class PostRepo {
         'taskDate': task.taskDate,
         'isCompleted': task.isCompleted,
       });
+
+      return TaskModel(
+        taskId: documentRef.id,
+        title: task.title,
+        taskDate: task.taskDate,
+        isCompleted: task.isCompleted,
+      );
     } catch (e) {
       if (kDebugMode) print('Error adding task to Firestore: $e');
+      return null;
     }
   }
 
@@ -67,7 +75,9 @@ class PostRepo {
 
   Future<void> deleteTaskFromFirestore(String taskId) async {
     try {
+      print('deleting' + taskId);
       await _firestore.collection('tasks').doc(taskId).delete();
+      print('deleted');
     } catch (e) {
       if (kDebugMode) print('Error deleting task from Firestore: $e');
     }

@@ -6,22 +6,17 @@ class TaskProvider with ChangeNotifier {
   final PostRepo _postRepo = PostRepo();
   List<TaskModel> _tasks = [];
   List<TaskModel> _localTasks = [];
-  bool _addLoading = false;
   bool _getLoading = false;
-  bool _updateLoading = false;
 
   List<TaskModel> get tasks => _tasks;
   List<TaskModel> get localTasks => _localTasks;
-  bool get addLoading => _addLoading;
   bool get getLoading => _getLoading;
-  bool get updateLoading => _updateLoading;
 
   Future<void> addTask(TaskModel task) async {
-    _addLoading = true;
-    notifyListeners();
-    await _postRepo.addTaskToFirestore(task);
-    _localTasks.add(task);
-    _addLoading = false;
+    final addedTask = await _postRepo.addTaskToFirestore(task);
+    if (addedTask != null) {
+      _localTasks.add(addedTask);
+    }
     notifyListeners();
   }
 
@@ -40,10 +35,7 @@ class TaskProvider with ChangeNotifier {
   }
 
   Future<void> updateTask(TaskModel task) async {
-    _updateLoading = true;
-    notifyListeners();
     await _postRepo.updateTaskInFirestore(task);
-    _updateLoading = false;
     notifyListeners();
   }
 

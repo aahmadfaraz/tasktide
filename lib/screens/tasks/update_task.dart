@@ -20,6 +20,7 @@ class UpdateTaskDialog extends StatefulWidget {
 class _UpdateTaskDialogState extends State<UpdateTaskDialog> {
   final TextEditingController taskController = TextEditingController();
   late DateTime selectedDate;
+  bool updateLoading = false;
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _UpdateTaskDialogState extends State<UpdateTaskDialog> {
   Widget build(BuildContext context) {
     final taskProvider = Provider.of<TaskProvider>(context, listen: false);
 
-    return taskProvider.updateLoading
+    return updateLoading == true
         ? const Center(child: CircularProgressIndicator(color: Pallete.primary))
         : AlertDialog(
             scrollable: true,
@@ -130,6 +131,9 @@ class _UpdateTaskDialogState extends State<UpdateTaskDialog> {
               TextButton(
                 onPressed: () async {
                   if (taskController.text.isNotEmpty) {
+                    setState(() {
+                      updateLoading = true;
+                    });
                     await taskProvider.updateTask(
                       TaskModel(
                         taskId: widget.task.taskId,
@@ -139,10 +143,13 @@ class _UpdateTaskDialogState extends State<UpdateTaskDialog> {
                       ),
                     );
                     await taskProvider.getTasks();
+                    setState(() {
+                      updateLoading = false;
+                    });
                     if (mounted) Navigator.pop(context);
                   }
                 },
-                child: taskProvider.updateLoading
+                child: updateLoading == true
                     ? const Center(
                         child:
                             CircularProgressIndicator(color: Pallete.primary))

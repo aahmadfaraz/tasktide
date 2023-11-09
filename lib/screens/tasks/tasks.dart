@@ -133,8 +133,7 @@ class _TasksScreenState extends State<TasksScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 0.0),
                             child: inProgressTasks.isEmpty
-                                ? tasks.getLoading ||
-                                        tasks.updateLoading
+                                ? tasks.getLoading
                                     ? const Center(
                                         child: CircularProgressIndicator(
                                           color: Pallete.primary,
@@ -157,7 +156,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                         ),
                                       )
                                 : SizedBox(
-                                    height: MediaQuery.sizeOf(context).height*.7,
+                                    height:
+                                        MediaQuery.sizeOf(context).height * .7,
                                     child: ListView.builder(
                                       itemCount: inProgressTasks.length,
                                       itemBuilder: (context, index) {
@@ -171,8 +171,7 @@ class _TasksScreenState extends State<TasksScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 0.0),
                             child: completedTasks.isEmpty
-                                ? tasks.getLoading ||
-                                        tasks.updateLoading
+                                ? tasks.getLoading
                                     ? const Center(
                                         child: CircularProgressIndicator(
                                           color: Pallete.primary,
@@ -195,7 +194,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                         ),
                                       )
                                 : SizedBox(
-                                    height: MediaQuery.sizeOf(context).height*.7,
+                                    height:
+                                        MediaQuery.sizeOf(context).height * .7,
                                     child: ListView.builder(
                                       itemCount: completedTasks.length,
                                       itemBuilder: (context, index) {
