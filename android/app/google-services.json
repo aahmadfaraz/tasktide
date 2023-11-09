@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "951145141023",
+    "project_id": "tasktide-d0e3d",
+    "storage_bucket": "tasktide-d0e3d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951145141023:android:33cac8b4cd38ebc4cb962a",
+        "android_client_info": {
+          "package_name": "com.example.tasktide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzr8bPyj5iMv6gKVLlqaGlQbbEgAk91wo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
